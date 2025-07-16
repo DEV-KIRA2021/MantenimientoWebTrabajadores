@@ -1,0 +1,256 @@
+﻿@model List<TrabajadoresPrueba.Models.ListadoTrabajadorDTO>
+
+<h2 class="mb-3"> ::: LISTADO DE TRABAJADORES :::</h2>
+
+@{
+    var sexoSeleccionado = ViewBag.SexoSeleccionado as string;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCrear">
+        <i class="bi bi-person-plus"></i> Nuevo Trabajador
+    </button>
+    <form method="get" action="/Trabajador/Index" class="d-flex align-items-center gap-2">
+        <label class="mb-0">Filtrar por sexo:</label>
+        <select name="sexo" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
+            @Html.Raw($"<option value=\"\" {(string.IsNullOrEmpty(sexoSeleccionado) ? "selected" : "")}>-- Todos --</option>")
+            @Html.Raw($"<option value=\"M\" {(sexoSeleccionado == "M" ? "selected" : "")}>Masculino</option>")
+            @Html.Raw($"<option value=\"F\" {(sexoSeleccionado == "F" ? "selected" : "")}>Femenino</option>")
+        </select>
+    </form>
+
+
+</div>
+
+
+
+<table class="table table-bordered text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>Tipo Documento</th>
+            <th>N° Documento</th>
+            <th>Nombres</th>
+            <th>Sexo</th>
+            <th>Departamento</th>
+            <th>Provincia</th>
+            <th>Distrito</th>
+            <th>Accion</th> 
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr style="background-color: @(t.Sexo == "M" ? "#007BFF" : "#FF5733"); color: white;">
+                <td>@t.TipoDocumento</td>
+                <td>@t.NumeroDocumento</td>
+                <td>@t.Nombres</td>
+                <td>@t.Sexo</td>
+                <td>@t.Departamento</td>
+                <td>@t.Provincia</td>
+                <td>@t.Distrito</td>
+                <td>
+                    <a href="#" class="btn btn-sm text-dark btn-editar" data-id="@t.Id" title="Editar">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a href="#" class="btn btn-sm text-dark btn-eliminar" data-id="@t.Id" data-nombre="@t.Nombres" title="Eliminar">
+                        <i class="bi bi-trash3"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal Crear/Editar Trabajador -->
+<div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="modalCrearLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form asp-action="Create" method="post" id="formTrabajador">
+                <input type="hidden" name="Id" id="Id" value="0" />
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="tituloModal">Crear Trabajador</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label>Tipo Documento</label>
+                            <select name="TipoDocumento" id="TipoDocumento" class="form-select" required>
+                                <option value="">-- Seleccione --</option>
+                                <option value="DNI">DNI</option>
+                                <option value="CE">CE</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Número Documento</label>
+                            <input type="text" name="NumeroDocumento" id="NumeroDocumento" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-12">
+                            <label>Nombres</label>
+                            <input type="text" name="Nombres" id="Nombres" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-12">
+                            <label>Sexo</label><br />
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="Sexo" value="M" id="sexoM" required />
+                                <label class="form-check-label" for="sexoM">Masculino</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="Sexo" value="F" id="sexoF" required />
+                                <label class="form-check-label" for="sexoF">Femenino</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Departamento</label>
+                            <select name="IdDepartamento" id="IdDepartamento" class="form-select" required>
+                                <option value="">-- Seleccione --</option>
+                                @foreach (var dep in ViewBag.Departamentos)
+                                {
+                                    <option value="@dep.Id">@dep.NombreDepartamento</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Provincia</label>
+                            <select name="IdProvincia" id="IdProvincia" class="form-select" required>
+                                <option value="">-- Seleccione --</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Distrito</label>
+                            <select name="IdDistrito" id="IdDistrito" class="form-select" required>
+                                <option value="">-- Seleccione --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" id="btnSubmit">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Confirmar Eliminación -->
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="Delete">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="Id" id="deleteId" />
+                    <p>¿Está seguro que desea eliminar al trabajador <strong id="deleteNombre"></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Sí, Eliminar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            // Nuevo
+            $('#btnNuevo').click(function () {
+                $('#formTrabajador')[0].reset();
+                $('#Id').val(0);
+                $('#tituloModal').text('Crear Trabajador');
+                $('#btnSubmit').text('Guardar');
+                $('#formTrabajador').attr('action', '/Trabajador/Create');
+            });
+
+            // Editar
+            $('.btn-editar').click(function (e) {
+                e.preventDefault();
+                const id = $(this).data('id');
+
+                $.get('/Trabajador/GetTrabajador?id=' + id, function (data) {
+                    $('#Id').val(data.id);
+                    $('#TipoDocumento').val(data.tipoDocumento);
+                    $('#NumeroDocumento').val(data.numeroDocumento);
+                    $('#Nombres').val(data.nombres);
+                    $('input[name="Sexo"][value="' + data.sexo + '"]').prop('checked', true);
+                    $('#IdDepartamento').val(data.idDepartamento).trigger('change');
+
+                    setTimeout(() => {
+                        $('#IdProvincia').val(data.idProvincia).trigger('change');
+                        setTimeout(() => {
+                            $('#IdDistrito').val(data.idDistrito);
+                        }, 300);
+                    }, 300);
+
+                    $('#tituloModal').text('Editar Trabajador');
+                    $('#btnSubmit').text('Actualizar');
+                    $('#formTrabajador').attr('action', '/Trabajador/Create');
+
+                    const modal = new bootstrap.Modal(document.getElementById('modalCrear'));
+                    modal.show();
+                });
+            });
+
+            // Provincias por departamento
+            $('#IdDepartamento').change(function () {
+                const departamentoId = $(this).val();
+                $('#IdProvincia').html('<option value="">-- Cargando... --</option>');
+                $('#IdDistrito').html('<option value="">-- Seleccione Provincia --</option>');
+
+                if (departamentoId) {
+                    $.get(`/Trabajador/GetProvincias?departamentoId=${departamentoId}`, function (data) {
+                        let options = '<option value="">-- Seleccione --</option>';
+                        data.forEach(function (prov) {
+                            options += `<option value="${prov.id}">${prov.nombreProvincia}</option>`;
+                        });
+                        $('#IdProvincia').html(options);
+                    });
+                }
+            });
+
+            // Distritos por provincia
+            $('#IdProvincia').change(function () {
+                const provinciaId = $(this).val();
+                $('#IdDistrito').html('<option value="">-- Cargando... --</option>');
+
+                if (provinciaId) {
+                    $.get(`/Trabajador/GetDistritos?provinciaId=${provinciaId}`, function (data) {
+                        let options = '<option value="">-- Seleccione --</option>';
+                        data.forEach(function (dist) {
+                            options += `<option value="${dist.id}">${dist.nombreDistrito}</option>`;
+                        });
+                        $('#IdDistrito').html(options);
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.btn-eliminar').click(function () {
+                const id = $(this).data('id');
+                const nombre = $(this).data('nombre');
+
+                $('#deleteId').val(id);
+                $('#deleteNombre').text(nombre);
+
+                const modal = new bootstrap.Modal(document.getElementById('modalEliminar'));
+                modal.show();
+            });
+        });
+    </script>
+}

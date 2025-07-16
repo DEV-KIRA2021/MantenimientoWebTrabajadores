@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\MYPER\\TrabajadoresPrueba\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|e:\\myper\\trabajadoresprueba\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|e:\\myper\\trabajadoresprueba\\models\\listadotrabajadordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|solutionrelative:models\\listadotrabajadordto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|e:\\myper\\trabajadoresprueba\\controllers\\trabajadorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|solutionrelative:controllers\\trabajadorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|e:\\myper\\trabajadoresprueba\\views\\trabajador\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|solutionrelative:views\\trabajador\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|e:\\myper\\trabajadoresprueba\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|e:\\myper\\trabajadoresprueba\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{5C98842B-1098-42E3-906B-12B24918475E}|TrabajadoresPrueba.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "E:\\MYPER\\TrabajadoresPrueba\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "E:\\MYPER\\TrabajadoresPrueba\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-07-16T21:14:44.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TrabajadorController.cs",
+              "DocumentMoniker": "E:\\MYPER\\TrabajadoresPrueba\\Controllers\\TrabajadorController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TrabajadorController.cs",
+              "ToolTip": "E:\\MYPER\\TrabajadoresPrueba\\Controllers\\TrabajadorController.cs",
+              "RelativeToolTip": "Controllers\\TrabajadorController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-16T20:55:37.458Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ListadoTrabajadorDTO.cs",
+              "DocumentMoniker": "E:\\MYPER\\TrabajadoresPrueba\\Models\\ListadoTrabajadorDTO.cs",
+              "RelativeDocumentMoniker": "Models\\ListadoTrabajadorDTO.cs",
+              "ToolTip": "E:\\MYPER\\TrabajadoresPrueba\\Models\\ListadoTrabajadorDTO.cs",
+              "RelativeToolTip": "Models\\ListadoTrabajadorDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-16T20:52:57.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\MYPER\\TrabajadoresPrueba\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "E:\\MYPER\\TrabajadoresPrueba\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-16T20:27:32.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "E:\\MYPER\\TrabajadoresPrueba\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "E:\\MYPER\\TrabajadoresPrueba\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADMAAABvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-16T20:40:29.17Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\MYPER\\TrabajadoresPrueba\\Views\\Trabajador\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Trabajador\\Index.cshtml",
+              "ToolTip": "E:\\MYPER\\TrabajadoresPrueba\\Views\\Trabajador\\Index.cshtml",
+              "RelativeToolTip": "Views\\Trabajador\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAP8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-16T16:57:37.646Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

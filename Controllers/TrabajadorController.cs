@@ -11,20 +11,22 @@ namespace TrabajadoresPrueba.Controllers
         {
             _context = context;
         }
+        // Mostrar lista de trabajadores con filtro por sexo (opcional)
         public async Task<IActionResult> Index(string sexo)
         {
-            //  Cargar departamentos desde la base de datos
-            ViewBag.Departamentos = await _context.Departamentos.ToListAsync();
-
-            // Guardar el filtro aplicado (si hay)
-            ViewBag.SexoSeleccionado = sexo;
-
-            //  Ejecutar el procedimiento almacenado para listar trabajadores
-            var trabajadores = await _context.ListadoTrabajadores
+            // Ejecutar el procedimiento almacenado
+            var trabajadores = await _context.Trabajadores
                 .FromSqlRaw("EXEC sp_ListarTrabajadores")
                 .ToListAsync();
 
-            //  Filtrar si se seleccionó un sexo
+            // Guardar filtro actual
+            ViewBag.SexoSeleccionado = sexo;
+
+            // Contar hombres y mujeres
+            ViewBag.CantidadHombres = trabajadores.Count(t => t.Sexo == "M");
+            ViewBag.CantidadMujeres = trabajadores.Count(t => t.Sexo == "F");
+
+            // Aplicar filtro si corresponde
             if (!string.IsNullOrEmpty(sexo))
             {
                 trabajadores = trabajadores.Where(t => t.Sexo == sexo).ToList();
@@ -33,62 +35,72 @@ namespace TrabajadoresPrueba.Controllers
             return View(trabajadores);
         }
 
-        [HttpGet]
-        // Acción GET que devuelve las provincias de un departamento en formato JSON (para llenar selects dinámicos)
-        public async Task<JsonResult> GetProvincias(int departamentoId)
-        {
-            var provincias = await _context.Provincia
-                .Where(p => p.IdDepartamento == departamentoId)
-                .ToListAsync();
-
-            return Json(provincias);
-        }
-
-        [HttpGet]
-        public async Task<JsonResult> GetDistritos(int provinciaId)
-        {
-            var distritos = await _context.Distritos
-                .Where(d => d.IdProvincia == provinciaId)
-                .ToListAsync();
-
-            return Json(distritos);
-        }
-
+        // Crear o editar trabajador
         [HttpPost]
-        // Acción POST que crea un nuevo trabajador o actualiza uno existente, dependiendo si el Id es 0 o no
-        public async Task<IActionResult> Create(Trabajadores trabajador)
+        public async Task<IActionResult> Create(Trabajadores trabajador, IFormFile? FotoFile)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (trabajador.Id == 0)
+                if (ModelState.IsValid)
                 {
-                    _context.Add(trabajador); // Nuevo
-                }
-                else
-                {
-                    _context.Update(trabajador); // Editar
-                }
+            bool existeDocumento = await _context.Trabajadores
+                .AnyAsync(t => t.NumeroDocumento == trabajador.NumeroDocumento && t.Id != trabajador.Id);
 
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+            if (existeDocumento)
+            {
+                ModelState.AddModelError("NumeroDocumento", "El número de documento ya está registrado.");
+                return View("Index", trabajador); // Muestra el error en la vista
+            }
+                    if (FotoFile != null && FotoFile.Length > 0)
+                    {
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                        if (!Directory.Exists(uploadsFolder))
+                            Directory.CreateDirectory(uploadsFolder);
+
+                        var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(FotoFile.FileName);
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await FotoFile.CopyToAsync(stream);
+                        }
+
+                        trabajador.Foto = "/uploads/" + uniqueFileName;
+                    }
+
+                    if (trabajador.Id == 0)
+                        _context.Add(trabajador);
+                    else
+                        _context.Update(trabajador);
+
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Te mostrará el error detallado
+                ModelState.AddModelError("", $"Error al guardar: {ex.Message}");
             }
 
-            return View(trabajador);
+            return View("Index");
         }
 
+
+
+        // Obtener datos de un trabajador específico (para edición)
         [HttpGet]
-        // Acción GET para obtener un trabajador específico por Id, devuelve JSON para usar en edición dinámica
         public async Task<JsonResult> GetTrabajador(int id)
         {
             var trabajador = await _context.Trabajadores.FindAsync(id);
             return Json(trabajador);
         }
 
+        // Eliminar trabajador
         [HttpPost]
-        // Acción POST para eliminar un trabajador por Id
-        public async Task<IActionResult> Delete(int Id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var trabajador = await _context.Trabajadores.FindAsync(Id);
+            var trabajador = await _context.Trabajadores.FindAsync(id);
 
             if (trabajador != null)
             {

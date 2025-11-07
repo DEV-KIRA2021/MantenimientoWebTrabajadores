@@ -1,15 +1,16 @@
-﻿@model List<TrabajadoresPrueba.Models.ListadoTrabajadorDTO>
+﻿@model List<TrabajadoresPrueba.Models.Trabajadores>
 
-<h2 class="mb-3"> ::: LISTADO DE TRABAJADORES :::</h2>
+<h2 class="mb-3"> ::: LISTADO DE TRABAJADORES ::: </h2>
 
 @{
     var sexoSeleccionado = ViewBag.SexoSeleccionado as string;
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCrear">
+    <button class="btn btn-success btn-Nuevo" data-bs-toggle="modal" data-bs-target="#modalCrear">
         <i class="bi bi-person-plus"></i> Nuevo Trabajador
     </button>
+
     <form method="get" action="/Trabajador/Index" class="d-flex align-items-center gap-2">
         <label class="mb-0">Filtrar por sexo:</label>
         <select name="sexo" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
@@ -19,10 +20,11 @@
         </select>
     </form>
 
-
+    <div>
+        <p class="mb-0">Cantidad hombres: <strong>@ViewBag.CantidadHombres</strong></p>
+        <p class="mb-0">Cantidad mujeres: <strong>@ViewBag.CantidadMujeres</strong></p>
+    </div>
 </div>
-
-
 
 <table class="table table-bordered text-center">
     <thead class="table-dark">
@@ -30,24 +32,36 @@
             <th>Tipo Documento</th>
             <th>N° Documento</th>
             <th>Nombres</th>
+            <th>Apellidos</th>
             <th>Sexo</th>
-            <th>Departamento</th>
-            <th>Provincia</th>
-            <th>Distrito</th>
-            <th>Accion</th> 
+            <th>Fecha Nacimiento</th>
+            <th>Dirección</th>
+            <th>Foto</th>
+            <th>Acción</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var t in Model)
         {
-            <tr style="background-color: @(t.Sexo == "M" ? "#007BFF" : "#FF5733"); color: white;">
+            <tr style="background-color:@(t.Sexo == "M" ? "#007BFF" : "#FF5733"); color:white;">
                 <td>@t.TipoDocumento</td>
                 <td>@t.NumeroDocumento</td>
                 <td>@t.Nombres</td>
-                <td>@t.Sexo</td>
-                <td>@t.Departamento</td>
-                <td>@t.Provincia</td>
-                <td>@t.Distrito</td>
+                <td>@t.Apellido</td>
+                <td>@(t.Sexo == "M" ? "Masculino" : "Femenino")</td>
+                <td>@t.FechaNacimiento.ToString("dd/MM/yyyy")</td>
+                <td>@t.Direccion</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(t.Foto))
+                    {
+                        <img src="@t.Foto" alt="Foto" style="width:60px;height:60px;object-fit:cover;border-radius:50%;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">Sin foto</span>
+                    }
+                </td>
+
                 <td>
                     <a href="#" class="btn btn-sm text-dark btn-editar" data-id="@t.Id" title="Editar">
                         <i class="bi bi-pencil-square"></i>
@@ -65,7 +79,7 @@
 <div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="modalCrearLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form asp-action="Create" method="post" id="formTrabajador">
+            <form asp-action="Create" method="post" id="formTrabajador" enctype="multipart/form-data">
                 <input type="hidden" name="Id" id="Id" value="0" />
                 <div class="modal-header bg-success text-white">
                     <h5 class="modal-title" id="tituloModal">Crear Trabajador</h5>
@@ -73,7 +87,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label>Tipo Documento</label>
                             <select name="TipoDocumento" id="TipoDocumento" class="form-select" required>
                                 <option value="">-- Seleccione --</option>
@@ -82,51 +96,43 @@
                             </select>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label>Número Documento</label>
                             <input type="text" name="NumeroDocumento" id="NumeroDocumento" class="form-control" required />
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-4">
+                            <label>Sexo</label>
+                            <select name="Sexo" id="Sexo" class="form-select" required>
+                                <option value="">-- Seleccione --</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
                             <label>Nombres</label>
                             <input type="text" name="Nombres" id="Nombres" class="form-control" required />
                         </div>
 
+                        <div class="col-md-6">
+                            <label>Apellidos</label>
+                            <input type="text" name="Apellido" id="Apellido" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Fecha de Nacimiento</label>
+                            <input type="date" name="FechaNacimiento" id="FechaNacimiento" class="form-control" required />
+                        </div>
+
                         <div class="col-md-12">
-                            <label>Sexo</label><br />
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="Sexo" value="M" id="sexoM" required />
-                                <label class="form-check-label" for="sexoM">Masculino</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="Sexo" value="F" id="sexoF" required />
-                                <label class="form-check-label" for="sexoF">Femenino</label>
-                            </div>
+                            <label>Foto</label>
+                            <input type="file" name="FotoFile" id="FotoFile" class="form-control" accept="image/*" />
                         </div>
 
-                        <div class="col-md-4">
-                            <label>Departamento</label>
-                            <select name="IdDepartamento" id="IdDepartamento" class="form-select" required>
-                                <option value="">-- Seleccione --</option>
-                                @foreach (var dep in ViewBag.Departamentos)
-                                {
-                                    <option value="@dep.Id">@dep.NombreDepartamento</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label>Provincia</label>
-                            <select name="IdProvincia" id="IdProvincia" class="form-select" required>
-                                <option value="">-- Seleccione --</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label>Distrito</label>
-                            <select name="IdDistrito" id="IdDistrito" class="form-select" required>
-                                <option value="">-- Seleccione --</option>
-                            </select>
+                        <div class="col-md-12">
+                            <label>Dirección</label>
+                            <input type="text" name="Direccion" id="Direccion" class="form-control" required />
                         </div>
                     </div>
                 </div>
@@ -164,92 +170,44 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function () {
-
+        $(function () {
             // Nuevo
-            $('#btnNuevo').click(function () {
+            $('.btn-Nuevo').click(function () {
                 $('#formTrabajador')[0].reset();
                 $('#Id').val(0);
                 $('#tituloModal').text('Crear Trabajador');
                 $('#btnSubmit').text('Guardar');
-                $('#formTrabajador').attr('action', '/Trabajador/Create');
             });
 
             // Editar
             $('.btn-editar').click(function (e) {
                 e.preventDefault();
                 const id = $(this).data('id');
-
                 $.get('/Trabajador/GetTrabajador?id=' + id, function (data) {
                     $('#Id').val(data.id);
                     $('#TipoDocumento').val(data.tipoDocumento);
                     $('#NumeroDocumento').val(data.numeroDocumento);
                     $('#Nombres').val(data.nombres);
-                    $('input[name="Sexo"][value="' + data.sexo + '"]').prop('checked', true);
-                    $('#IdDepartamento').val(data.idDepartamento).trigger('change');
-
-                    setTimeout(() => {
-                        $('#IdProvincia').val(data.idProvincia).trigger('change');
-                        setTimeout(() => {
-                            $('#IdDistrito').val(data.idDistrito);
-                        }, 300);
-                    }, 300);
+                    $('#Apellido').val(data.apellido);
+                    $('#Sexo').val(data.sexo);
+                    $('#FechaNacimiento').val(data.fechaNacimiento.split('T')[0]);
+                    $('#Direccion').val(data.direccion);
+                    $('#Foto').val(data.foto);
 
                     $('#tituloModal').text('Editar Trabajador');
                     $('#btnSubmit').text('Actualizar');
-                    $('#formTrabajador').attr('action', '/Trabajador/Create');
 
-                    const modal = new bootstrap.Modal(document.getElementById('modalCrear'));
-                    modal.show();
+                    new bootstrap.Modal(document.getElementById('modalCrear')).show();
                 });
             });
 
-            // Provincias por departamento
-            $('#IdDepartamento').change(function () {
-                const departamentoId = $(this).val();
-                $('#IdProvincia').html('<option value="">-- Cargando... --</option>');
-                $('#IdDistrito').html('<option value="">-- Seleccione Provincia --</option>');
-
-                if (departamentoId) {
-                    $.get(`/Trabajador/GetProvincias?departamentoId=${departamentoId}`, function (data) {
-                        let options = '<option value="">-- Seleccione --</option>';
-                        data.forEach(function (prov) {
-                            options += `<option value="${prov.id}">${prov.nombreProvincia}</option>`;
-                        });
-                        $('#IdProvincia').html(options);
-                    });
-                }
-            });
-
-            // Distritos por provincia
-            $('#IdProvincia').change(function () {
-                const provinciaId = $(this).val();
-                $('#IdDistrito').html('<option value="">-- Cargando... --</option>');
-
-                if (provinciaId) {
-                    $.get(`/Trabajador/GetDistritos?provinciaId=${provinciaId}`, function (data) {
-                        let options = '<option value="">-- Seleccione --</option>';
-                        data.forEach(function (dist) {
-                            options += `<option value="${dist.id}">${dist.nombreDistrito}</option>`;
-                        });
-                        $('#IdDistrito').html(options);
-                    });
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
+            // Eliminar
             $('.btn-eliminar').click(function () {
                 const id = $(this).data('id');
                 const nombre = $(this).data('nombre');
-
                 $('#deleteId').val(id);
                 $('#deleteNombre').text(nombre);
-
-                const modal = new bootstrap.Modal(document.getElementById('modalEliminar'));
-                modal.show();
+                new bootstrap.Modal(document.getElementById('modalEliminar')).show();
             });
         });
     </script>

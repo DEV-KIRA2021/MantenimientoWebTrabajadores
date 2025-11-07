@@ -1,0 +1,23 @@
+# Archivos y carpetas del IDE (Visual Studio)
+.vs/
+*.suo
+*.user
+
+# Carpetas de compilación
+[Bb]in/
+[Oo]bj/
+
+# Archivos de compilación (backup)
+*.[Cc]ache
+*.orig
+
+# Archivos de Paquetes Nuget
+packages/
+*.nupkg
+
+# Carpeta de subidas (basado en tu 'git status')
+# Usualmente no quieres subir los archivos que los usuarios suben en 'uploads'
+wwwroot/uploads/
+
+# Archivos de Test Store (basado en tu 'git status')
+.vs/TrabajadoresPrueba/v17/TestStore/
